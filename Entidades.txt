@@ -1,0 +1,7 @@
+|Empresa
+|--Sucursales
+|--Usuarios
+    |--Repartidores
+    |--Administradores
+|--Vehiculos
+|--Ordenes
