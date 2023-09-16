@@ -86,7 +86,7 @@ class DriverController extends Controller
     public function get(Request $request, $id)
     {
         $user = $request->user();
-        $driver = User::where('company_id',$user->company_id)->where('role','driver')->with(['driver','company'])->first();
+        $driver = User::where('id',$id)->where('role','driver')->with(['driver','company'])->first();
         return response()->json(['status' => 'ok','driver'=>$driver], 200);
 
         }
