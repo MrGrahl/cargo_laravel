@@ -9,7 +9,8 @@ use App\Http\Controllers\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'auth', 'middleware' => 'cors'], function() {    // Registro de usuario
+Route::prefix('auth')->group(function () {
+    // Registro de usuario
     Route::post('register', [AuthController::class, 'register']);
     // Apertura de cuenta
     Route::post('open-account', [AuthController::class, 'openAccount']);
@@ -17,12 +18,12 @@ Route::group(['prefix' => 'auth', 'middleware' => 'cors'], function() {    // Re
     Route::post('login', [AuthController::class, 'login']);
     Route::post('driver-login', [AuthController::class, 'driverLogin']);
     // Obtener información del usuario autenticado
-    Route::middleware(['auth:api','cors'])->get('/user', function (Request $request) {
+    Route::middleware(['auth:api'])->get('/user', function (Request $request) {
         $user = $request->user();
         $user->load('company');
         return $user;
     });
-    Route::middleware(['auth:api','cors'])->get('/user-driver', function (Request $request) {
+    Route::middleware(['auth:api'])->get('/user-driver', function (Request $request) {
         $user = $request->user();
 
         $user->load('company');
@@ -30,57 +31,57 @@ Route::group(['prefix' => 'auth', 'middleware' => 'cors'], function() {    // Re
         return $user;
     });
     // Verificar autenticación
-    Route::middleware(['auth:api','cors'])->get('verify', [AuthController::class, 'verifyAuthentication']);
+    Route::middleware(['auth:api'])->get('verify', [AuthController::class, 'verifyAuthentication']);
 
     // Cerrar sesión
-    Route::middleware(['auth:api','cors'])->post('logout', [AuthController::class, 'logout']);
+    Route::middleware(['auth:api'])->post('logout', [AuthController::class, 'logout']);
 
 });
 
 Route::prefix('companies')->group(function () {
     // Registro de empresa
-    Route::put('/register', [CompanyController::class, 'register'])->middleware(['auth:api','cors']);
+    Route::put('/register', [CompanyController::class, 'register'])->middleware('auth:api');
     // Obtener información de una empresa por ID
-    Route::get('/{id}', [CompanyController::class, 'get'])->where('id', '[0-9]+')->middleware(['auth:api','cors']);
+    Route::get('/{id}', [CompanyController::class, 'get'])->where('id', '[0-9]+')->middleware('auth:api');
     // Obtener lista de empresas
-    Route::get('/list', [CompanyController::class, 'index'])->middleware(['auth:api','cors']);
+    Route::get('/list', [CompanyController::class, 'index'])->middleware('auth:api');
 });
 
 Route::prefix('drivers')->group(function () {
     // Registro de conductor
-    Route::put('/register', [DriverController::class, 'register'])->middleware(['auth:api','cors']);
+    Route::put('/register', [DriverController::class, 'register'])->middleware('auth:api');
     // Actualizar información del conductor
-    Route::post('/update', [DriverController::class, 'update'])->middleware(['auth:api','cors']);
+    Route::post('/update', [DriverController::class, 'update'])->middleware('auth:api');
     // Obtener información de un conductor por ID
-    Route::get('/{id}', [DriverController::class, 'get'])->where('id', '[0-9]+')->middleware(['auth:api','cors']);
+    Route::get('/{id}', [DriverController::class, 'get'])->where('id', '[0-9]+')->middleware('auth:api');
     // Obtener lista de conductores
-    Route::get('/list', [DriverController::class, 'index'])->middleware(['auth:api','cors']);
+    Route::get('/list', [DriverController::class, 'index'])->middleware('auth:api');
     // Obtener información de un pedido asignado a un conductor
-    Route::get('/orders', [DriverController::class, 'orders'])->middleware(['auth:api','cors']);
-    Route::get('/orders/pending', [DriverController::class, 'pendingOrders'])->middleware(['auth:api','cors']);
+    Route::get('/orders', [DriverController::class, 'orders'])->middleware('auth:api');
+    Route::get('/orders/pending', [DriverController::class, 'pendingOrders'])->middleware('auth:api');
     // Obtener información de un conductor por número de documento
-    Route::get('/docnumber/{docnumber}', [DriverController::class, 'getByDocNumber'])->middleware(['auth:api','cors']);
+    Route::get('/docnumber/{docnumber}', [DriverController::class, 'getByDocNumber'])->middleware('auth:api');
 });
 
 Route::prefix('orders')->group(function () {
     // Crear un nuevo pedido
-    Route::put('/store', [OrderController::class, 'store'])->middleware(['auth:api','cors']);
+    Route::put('/store', [OrderController::class, 'store'])->middleware('auth:api');
     // Obtener información de un pedido por ID
-    Route::get('/{id}', [OrderController::class, 'get'])->where('id', '[0-9]+')->middleware(['auth:api','cors']);
+    Route::get('/{id}', [OrderController::class, 'get'])->where('id', '[0-9]+')->middleware('auth:api');
     // Cambiar el estado de una orden
-    Route::post('/{id}/change-status/{status}', [OrderController::class, 'changeStatus'])->middleware(['auth:api','cors']);
+    Route::post('/{id}/change-status/{status}', [OrderController::class, 'changeStatus'])->middleware('auth:api');
     // Obtener lista de pedidos
-    Route::get('/list', [OrderController::class, 'index'])->middleware(['auth:api','cors']);
+    Route::get('/list', [OrderController::class, 'index'])->middleware('auth:api');
 });
 
 Route::prefix('clients')->group(function () {
     // Obtener información de un cliente por número de documento
-    Route::get('/docnumber/{docnumber}', [ClientController::class, 'getByDocNumber'])->middleware(['auth:api','cors']);
+    Route::get('/docnumber/{docnumber}', [ClientController::class, 'getByDocNumber'])->middleware('auth:api');
     // Obtener lista de clientes
-    Route::get('/list', [ClientController::class, 'index'])->middleware(['auth:api','cors']);
+    Route::get('/list', [ClientController::class, 'index'])->middleware('auth:api');
 });
 
 Route::prefix('dashboard')->group(function () {
     // Obtener información del panel de control
-    Route::get('/index', [DashboardController::class, 'index'])->middleware(['auth:api','cors']);
+    Route::get('/index', [DashboardController::class, 'index'])->middleware('auth:api');
 });
