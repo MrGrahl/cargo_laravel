@@ -31,7 +31,7 @@ Route::prefix('auth')->group(function () {
         return $user;
     });
     // Verificar autenticación
-    Route::middleware(['auth:api'])->get('verify', [AuthController::class, 'verifyAuthentication']);
+    Route::middleware(['auth:api','cors'])->get('verify', [AuthController::class, 'verifyAuthentication']);
 
     // Cerrar sesión
     Route::middleware(['auth:api'])->post('logout', [AuthController::class, 'logout']);
