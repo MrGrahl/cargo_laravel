@@ -55,9 +55,9 @@ return [
     |
     */
 
-    'url' => env('APP_URL', 'http://95.111.252.90:8085/'),
+    'url' => env('APP_URL', 'https://cargoapi.grahlycompany.com'),
 
-    'frontend_url' => env('FRONTEND_URL', '*'),
+    'frontend_url' => '*',
 
     'asset_url' => env('ASSET_URL'),
 
