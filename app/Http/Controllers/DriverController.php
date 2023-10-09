@@ -135,6 +135,20 @@ class DriverController extends Controller
             return response()->json(['driver'=>null], 401);
         }else{
             $driver->arrived_at = Carbon::now();
+            $driver->arrived = 1;
+            $driver->save();
+            return response()->json(['status' => 'ok','driver'=>$driver], 200);
+        }
+    }
+    function left(Request $request, $id){
+        $driver = Driver::find($id);
+        if(!$driver){
+            return response()->json(['driver'=>null], 401);
+        }else{
+            $driver->arrived_at = null;
+            $driver->arrived = 0;
+            $driver->save();
+
             return response()->json(['status' => 'ok','driver'=>$driver], 200);
         }
     }
