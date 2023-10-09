@@ -6,6 +6,7 @@ use App\Models\Driver;
 use App\Models\Order;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 class DriverController extends Controller
@@ -126,5 +127,15 @@ class DriverController extends Controller
     function getByDocNumber(Request $request, $docnumber){
         $driver = Driver::where('doc_number',$docnumber)->with('user')->first();
         return response()->json(['status' => 'ok','driver'=>$driver], 200);
+    }
+
+    function arrive(Request $request, $id){
+        $driver = Driver::find($id);
+        if(!$driver){
+            return response()->json(['driver'=>null], 401);
+        }else{
+            $driver->arrived_at = Carbon::now();
+            return response()->json(['status' => 'ok','driver'=>$driver], 200);
+        }
     }
 }
