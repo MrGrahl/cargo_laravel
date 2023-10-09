@@ -61,7 +61,7 @@ Route::prefix('drivers')->group(function () {
     Route::get('/orders/pending', [DriverController::class, 'pendingOrders'])->middleware('auth:api');
     // Obtener información de un conductor por número de documento
     Route::get('/docnumber/{docnumber}', [DriverController::class, 'getByDocNumber'])->middleware('auth:api');
-    Route::get('/arrived/{id}', [DriverController::class, 'arrived'])->middleware('auth:api');
+    Route::get('/arrived/{id}', [DriverController::class, 'arrive'])->middleware('auth:api');
     Route::get('/left/{id}', [DriverController::class, 'left'])->middleware('auth:api');
 });
 
