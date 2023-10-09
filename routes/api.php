@@ -63,6 +63,7 @@ Route::prefix('drivers')->group(function () {
     Route::get('/docnumber/{docnumber}', [DriverController::class, 'getByDocNumber'])->middleware('auth:api');
     Route::get('/arrived/{id}', [DriverController::class, 'arrive'])->middleware('auth:api');
     Route::get('/left/{id}', [DriverController::class, 'left'])->middleware('auth:api');
+    Route::get('/check/{id}', [DriverController::class, 'checkStatus'])->middleware('auth:api');
 });
 
 Route::prefix('orders')->group(function () {
