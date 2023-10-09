@@ -152,4 +152,12 @@ class DriverController extends Controller
             return response()->json(['status' => 'ok','driver'=>$driver], 200);
         }
     }
+    function checkStatus(Request $request, $id){
+        $driver = Driver::find($id);
+        if(!$driver){
+            return response()->json(['driver'=>null], 401);
+        }else{
+            return response()->json(['status' => 'ok','arrived'=>$driver->arrived,'arrived_at' => $driver->arrived_at], 200);
+        }
+    }
 }
