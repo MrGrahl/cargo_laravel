@@ -15,7 +15,12 @@ class OrderController extends Controller
     }
     public function store(Request $request)
     {
+        $user = $request->user();
+
         $order = new Order($request->all());
+        $order->created_by = $user->id;
+        $order->company_id = $user->company_id;
+        $order->status = "pending";
         $order->save();
         return response()->json(['status' => 'ok','order'=>$order], 200);
     }
