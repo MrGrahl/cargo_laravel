@@ -9,7 +9,7 @@ use App\Http\Controllers\OrderController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('auth')->group(function () {
+Route::prefix('auth')->middleware('api')->group(function () {
     // Registro de usuario
     Route::post('register', [AuthController::class, 'register']);
     // Apertura de cuenta
